@@ -8,10 +8,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import org.wit.placemark.R
 import org.wit.placemark.adapters.PlacemarkAdapter
+import org.wit.placemark.adapters.PlacemarkListener
 import org.wit.placemark.databinding.ActivityPlacemarkListBinding
 import org.wit.placemark.main.MainApp
+import org.wit.placemark.models.PlacemarkModel
 
-class PlacemarkListActivity : AppCompatActivity() {
+class PlacemarkListActivity : AppCompatActivity(), PlacemarkListener {
     lateinit var app: MainApp
     private lateinit var binding: ActivityPlacemarkListBinding
 
@@ -26,7 +28,7 @@ class PlacemarkListActivity : AppCompatActivity() {
         val layoutManager = LinearLayoutManager(this)
         binding.recyclerView.layoutManager = layoutManager
         // binding.recyclerView.adapter = PlacemarkAdapter(app.placemarks)
-        binding.recyclerView.adapter = PlacemarkAdapter(app.placemarks.findAll())
+        binding.recyclerView.adapter = PlacemarkAdapter(app.placemarks.findAll(),this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -42,5 +44,10 @@ class PlacemarkListActivity : AppCompatActivity() {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onPlacemarkClick(placemark: PlacemarkModel) {
+        val launcherIntent = Intent(this, PlacemarkActivity::class.java)
+        startActivityForResult(launcherIntent,0)
     }
 }
