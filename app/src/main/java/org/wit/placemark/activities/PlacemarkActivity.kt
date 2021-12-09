@@ -14,6 +14,7 @@ import org.wit.placemark.R
 import org.wit.placemark.databinding.ActivityPlacemarkBinding
 import org.wit.placemark.helpers.showImagePicker
 import org.wit.placemark.main.MainApp
+import org.wit.placemark.models.Location
 import org.wit.placemark.models.PlacemarkModel
 import timber.log.Timber
 import timber.log.Timber.i
@@ -54,10 +55,6 @@ class PlacemarkActivity : AppCompatActivity() {
             if (placemark.image != Uri.EMPTY) {
                 binding.chooseImage.setText(R.string.change_placemark_image)
             }
-            binding.placemarkLocation.setOnClickListener {
-                val launcherIntent = Intent(this, MapActivity::class.java)
-                mapIntentLauncher.launch(launcherIntent)
-            }
         }
 
         binding.btnAdd.setOnClickListener() {
@@ -83,6 +80,15 @@ class PlacemarkActivity : AppCompatActivity() {
         }
 
         registerImagePickerCallback()
+
+        binding.placemarkLocation.setOnClickListener {
+            val location = Location(52.245696, -7.139102, 15f)
+            val launcherIntent = Intent(this, MapActivity::class.java)
+                .putExtra("location", location)
+            mapIntentLauncher.launch(launcherIntent)
+        }
+
+        registerMapCallback()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
