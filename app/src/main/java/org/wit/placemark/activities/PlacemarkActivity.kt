@@ -52,6 +52,9 @@ class PlacemarkActivity : AppCompatActivity() {
             if (placemark.image != Uri.EMPTY) {
                 binding.chooseImage.setText(R.string.change_placemark_image)
             }
+            binding.placemarkLocation.setOnClickListener {
+                i ("Set Location Pressed")
+            }
         }
 
         binding.btnAdd.setOnClickListener() {
