@@ -25,6 +25,8 @@ class PlacemarkActivity : AppCompatActivity() {
     lateinit var app: MainApp
     private lateinit var imageIntentLauncher : ActivityResultLauncher<Intent>
     val IMAGE_REQUEST = 1
+    private lateinit var mapIntentLauncher : ActivityResultLauncher<Intent>
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,7 +55,8 @@ class PlacemarkActivity : AppCompatActivity() {
                 binding.chooseImage.setText(R.string.change_placemark_image)
             }
             binding.placemarkLocation.setOnClickListener {
-                i ("Set Location Pressed")
+                val launcherIntent = Intent(this, MapActivity::class.java)
+                mapIntentLauncher.launch(launcherIntent)
             }
         }
 
@@ -114,5 +117,11 @@ class PlacemarkActivity : AppCompatActivity() {
                     RESULT_CANCELED -> { } else -> { }
                 }
             }
+    }
+
+    private fun registerMapCallback() {
+        mapIntentLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult())
+            { i("Map Loaded") }
     }
 }
